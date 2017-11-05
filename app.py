@@ -14,7 +14,7 @@ def save_tag(fc,num):
 
 def get_tags():
     for tag in db.all():
-        print "FC: " + (tag['fc']) + " Num: " + (tag['num']) #Cleanup to return array
+        print "FC: " + (tag['fc']) + " Num: " + (tag['num']) #Cleanup to return dict
 
 def print_menu():
     print "-" * 30
