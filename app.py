@@ -8,7 +8,9 @@ db = TinyDB('rfid.json')
 def save_tag(fc,num):
     db_date = date.today()
     db_time = datetime.time(datetime.now())
-    db.insert({'fc': fc,'number': num, 'date': str(db_date), 'time': str(db_time)})
+    fc_bin = str(fc_to_bin(fc))
+    num_bin = str(num_to_bin(num))
+    db.insert({'fc': fc_bin, 'num': num_bin, 'date': str(db_date), 'time': str(db_time)})
 
 def get_tags():
     for tag in db.all():
@@ -31,7 +33,7 @@ def fc_to_bin(fc):
     bin_fc = "0" * (8 - len(str(bin(fc))[2:])) + str(bin(fc))[2:]
     return bin_fc
 
-def num_to_bin(fc):
+def num_to_bin(num):
     bin_num = "0" * (16 - len(str(bin(num))[2:])) + str(bin(num))[2:]
     return bin_num
 
@@ -41,8 +43,8 @@ if __name__ == "__main__":
         print_menu()
         action = raw_input("> ")
         if action == "1":
-            fc = raw_input("FC: ")
-            num = raw_input("Number: ")
+            fc = int(raw_input("FC: "))
+            num = int(raw_input("Number: "))
             save_tag(fc,num)
         elif action == "2":
             get_tags()
