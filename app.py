@@ -5,10 +5,10 @@ from datetime import datetime
 
 db = TinyDB('rfid.json')
 
-def save_tag(tag):
+def save_tag(fc,num):
     db_date = date.today()
     db_time = datetime.time(datetime.now())
-    db.insert({'rfid': tag, 'date': str(db_date), 'time': str(db_time)})
+    db.insert({'fc': fc,'number': num, 'date': str(db_date), 'time': str(db_time)})
 
 def get_tags():
     for tag in db.all():
@@ -22,24 +22,35 @@ def print_menu():
     print "0) Exit"
 
 def convert_to_rfid_bin(fc,num):
-    bin_fc = str(bin(fc))[2:]
-    bin_num = str(bin(num))[2:]
-    print "FC: " + bin_fc
-    print "Num: " + bin_num
+    bin_fc = "0" * (8 - len(str(bin(fc))[2:])) + str(bin(fc))[2:]
+    bin_num = "0" * (16 - len(str(bin(num))[2:])) + str(bin(num))[2:]
+    print bin_fc
+    print bin_num
+
+def fc_to_bin(fc):
+    bin_fc = "0" * (8 - len(str(bin(fc))[2:])) + str(bin(fc))[2:]
+    return bin_fc
+
+def num_to_bin(fc):
+    bin_num = "0" * (16 - len(str(bin(num))[2:])) + str(bin(num))[2:]
+    return bin_num
+
 
 if __name__ == "__main__":
     while True:
         print_menu()
         action = raw_input("> ")
         if action == "1":
-            tag = raw_input("ID: ")
-            save_tag(tag)
+            fc = raw_input("FC: ")
+            num = raw_input("Number: ")
+            save_tag(fc,num)
         elif action == "2":
             get_tags()
         elif action == "3":
             fc = int(raw_input("FC: "))
             num = int(raw_input("Number: "))
-            convert_to_rfid_bin(fc,num)
+            print "FC: " + fc_to_bin(fc)
+            print "Number: " + num_to_bin(num)
         elif action == "0":
             exit()
         else:
