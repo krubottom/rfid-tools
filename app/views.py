@@ -6,10 +6,7 @@ import urllib2
 from flask import render_template, flash, redirect, url_for, abort, send_file, request
 from werkzeug import secure_filename
 from .forms import PageForm
-
-# import sys
-# sys.path.append('../libs')
-# import lib
+from rfidlib import *
 
 # Return a generic static HTML page as base page
 @app.route("/")
